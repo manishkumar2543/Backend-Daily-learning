@@ -10,7 +10,7 @@ const App = () => {
   console.log('intergration')
 
   function fetchNotes(){
-     axios.get('http://localhost:3000/api/notes')
+     axios.get('https://backend-daily-learning-2.onrender.com//api/notes')
       .then((res)=>{
         setNotes(res.data.notes);
   })
@@ -26,7 +26,7 @@ const App = () => {
   const {title,discription}=e.target.elements;
   console.log(title.value, discription.value)
 
-  axios.post('http://localhost:3000/api/notes',{
+  axios.post('https://backend-daily-learning-2.onrender.com/api/notes',{
     title:title.value,
     discription:discription.value
   })
@@ -38,7 +38,7 @@ const App = () => {
  }
 
  function deleteHandler(noteid){
-  axios.delete(`http://localhost:3000/api/notes/${noteid}`)
+  axios.delete(`https://backend-daily-learning-2.onrender.com/api/notes/${noteid}`)
   .then((res)=>{
     console.log(res.data);
     fetchNotes();
@@ -48,7 +48,7 @@ const App = () => {
  function updateHandler(note){
   const newTitle=prompt('Enter new title',note.newTitle );
   const newDiscription=prompt('Enter new discription',note.newDiscription );
-  axios.patch(`http://localhost:3000/api/notes/${note._id}`,{
+  axios.patch(`https://backend-daily-learning-2.onrender.com/api/notes/${note._id}`,{
     title:newTitle,
     discription:newDiscription
   })
