@@ -3,7 +3,7 @@ const postModel=require('../models/post.model')
 
 const ImageKit=require('@imagekit/nodejs')
 const {toFile}=require('@imagekit/nodejs')
-const jwt =require('jsonwebtoken')
+
 
 
   const imagekit = new ImageKit({
@@ -12,30 +12,9 @@ const jwt =require('jsonwebtoken')
 
 async function creatPostController(req,res){
    
-    console.log(req.body,req.file)
+    // console.log(req.body,req.file)
 
-    const token =req.cookies.token;
-
-    if(!token){
-        return res.status(401).json({
-            message: "Token not provid, Unauthorized access"
-        })
-    }
-
-    let decoded=null
-
-    try{
-         decoded = jwt.verify(token,process.env.JWT_SECRET)
-    }
-    catch(err){
-        return res.status(401).json({
-            message:'user not authroized'
-        })
-
-    }
-
-
-    console.log(decoded)
+ 
 
 
     const file = await imagekit.files.upload({
@@ -49,7 +28,7 @@ async function creatPostController(req,res){
     const post = await postModel.create({
         caption:req.body.caption,
         imgUrl:file.url,
-        user:decoded.id
+        user:req.user.id
 
     })
     res.status(201).json({
@@ -58,8 +37,56 @@ async function creatPostController(req,res){
     })
 }
 
+async function getPostController (req,res){
+   
+
+    const userId=req.user.id
+
+    const post=await postModel.find({
+        user:userId
+    })
+
+    res.status(200).json({
+        message: 'Post fetched Successfull',
+        post
+    })
+}
+
+
+async function getPostDetails(req,res){
+     
+   
+
+   const userId=req.user.id
+   const postId=req.params.postId
+
+   const post=await postModel.findById(postId)
+
+   if(!post){
+    return res.status(404).json({
+        message:'Post not found'
+    })
+   }
+
+   const isVaildUser= post.user.toString() === userId
+
+   if(!isVaildUser){
+    return res.status(403).json({
+        message:'Forbidden Content.'
+    })
+   }
+   
+   return res.status(200).json({
+    message:'Post fetched Successfull',
+    post
+   })
+
+
+}
 
 
 module.exports={
-    creatPostController
+    creatPostController,
+    getPostController,
+    getPostDetails
 }
