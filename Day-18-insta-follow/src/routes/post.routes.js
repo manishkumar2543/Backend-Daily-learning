@@ -16,4 +16,9 @@ postRouter.get('/',identifyUser,PostController.getPostController)
 postRouter.get('/details/:postId',identifyUser,PostController.getPostDetails)  
 
 
+// Post /api/posts/like/:postid
+// decription: - like a post with the id provide in the parmas
+postRouter.post('/like/:postId',identifyUser,PostController.likePostController)
+
+
 module.exports=postRouter

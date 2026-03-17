@@ -2,7 +2,7 @@ const express=require('express')
 
 const userRouter=express.Router()
 
-const followControll=require('../controllers/user.controller')
+const userControll=require('../controllers/user.controller')
 const identifyUser=require('../middlewares/auth.middlewares')
 
 
@@ -11,7 +11,12 @@ const identifyUser=require('../middlewares/auth.middlewares')
 // Post /api/users/follow/userid
 //  description- follow  a user
 // access private
-userRouter.post('/follow/:username',identifyUser,followControll.followUserController)
+userRouter.post('/follow/:username',identifyUser,userControll.followUserController)
+
+
+// Post /api/users/unfollow/username
+// description :- Unfollow a User
+userRouter.post('/unfollow/:username',identifyUser,userControll.unfollowUserController)
 
 
 
