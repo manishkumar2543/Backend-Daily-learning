@@ -1,0 +1,49 @@
+main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+
+    .form-container{
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        background-color: #333232;
+        padding: 1rem;
+        border-radius: 1rem;
+        width: 400px;
+    }
+    form{
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        input{
+            padding-block: 1rem;
+            padding-inline: 1rem;
+            border-radius: 1rem;
+            border: none;
+            outline: none;
+        }
+        button{
+            padding-block: 1rem;
+            padding-inline: 1rem;
+            border-radius: 1rem;
+            border: none;
+            outline: none;
+            background-color: #c60101;
+            color: whitesmoke;
+            cursor: pointer;
+            
+        }
+       
+
+    }
+     p{
+            text-align: center;
+            .toggleAuthForm{
+                color: #c60101;
+                cursor: pointer;
+                text-decoration: none;
+            }
+        }
+}

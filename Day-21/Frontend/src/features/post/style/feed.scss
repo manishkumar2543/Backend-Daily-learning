@@ -1,0 +1,113 @@
+.feed-pages{
+    display: flex;
+    align-items: flex-start;
+    
+  
+
+    .feed{
+        max-width: 400px;
+        width: 100%;
+        // background-color: paleturquoise; 
+       
+      
+        
+
+        .posts{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+
+
+
+            .post{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            background-color: #5f5b5b;
+            border-radius: 1rem;
+            padding: 1rem;
+            
+            .user{
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                
+                .img-wrapper{
+                    border-radius: 50%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border: 2px solid #f60c0c00;
+                    background: conic-gradient(from 30deg ,red,rgb(215, 5, 127),rgb(255, 123, 0)) border-box;
+                }
+
+                
+                img{
+                    width: 2rem;
+                    aspect-ratio: 1/1;
+                    border-radius: 50%;
+                    object-fit: cover;
+                    
+
+                }
+            }
+            img{
+                width: 100%;
+                aspect-ratio: 1/1;
+                object-fit: cover;
+            }
+
+
+
+           
+        }
+
+
+             .icon{
+                display: flex;
+                justify-content: space-between;
+
+                svg{
+                    width: 1rem;
+                    aspect-ratio: 1/1;
+                    color: white;
+                    cursor: pointer;
+
+                   
+
+
+                }
+                button{
+                    border: none;
+                    background-color: transparent;
+
+                }
+                .left{
+                    display: flex;
+                   
+                    gap: 1rem;
+
+
+                }
+                .right{
+
+                }
+            }
+
+
+            .bottom {
+             width: 100%;
+             
+              .caption {
+                 text-align: left;
+                 padding: 0.5rem;
+                }
+            }
+
+        }
+      
+    }
+
+}

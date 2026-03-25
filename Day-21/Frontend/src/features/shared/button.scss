@@ -1,0 +1,20 @@
+button{
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    background-color: crimson;
+    color: whitesmoke;
+    transition: all 0.3s ease-in-out;
+   
+    &.primary-button{
+        background-color:crimson;
+        color: whitesmoke;
+    }
+
+    &:active{
+        transform: scale(0.9);
+        
+    }
+
+}
