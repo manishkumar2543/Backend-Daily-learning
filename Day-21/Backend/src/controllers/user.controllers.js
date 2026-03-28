@@ -15,8 +15,8 @@ async function followUserController(req,res){
         followee: followeeUsername
     })
     if(isAlredayFollowing){
-        return res.status(200).json({
-            message:`You are not following ${followeeUsername}`
+        return res.status(400).json({
+            message:`You are Alreadyfollowing ${followeeUsername}`
        
         })
 
@@ -28,7 +28,7 @@ async function followUserController(req,res){
     })
 
     res.status(201).json({
-        message:`follow request to send ${followeeUsername}`,
+        message:`followed ${followeeUsername} Successful`,
         follow:followRecord
     })
 }
@@ -50,7 +50,7 @@ async function unfollowUserController(req,res){
     await followModel.findByIdAndDelete(isAlredayFollowing._id)
 
     res.status(200).json({
-        message:`You have unfollow ${followeeUsername}`
+        message:`Unfollow ${followeeUsername} Successful`
 
     })
 

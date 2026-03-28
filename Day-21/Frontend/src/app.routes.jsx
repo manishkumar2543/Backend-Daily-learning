@@ -2,13 +2,13 @@ import { createBrowserRouter } from "react-router";
 import Login from "./features/auth/pages/Login";
 import Register from "./features/auth/pages/Register";
 import Feed from "./features/post/pages/Feed";
+import CreatePost from "./features/post/components/CreatePost";
 
 
 
 const router=createBrowserRouter([
     {
-        path:'/',
-        element:<h1>Home</h1>
+        
     },
     {
         path:'/login',
@@ -20,8 +20,12 @@ const router=createBrowserRouter([
         element:<Register/>
     },
     {
-        path:'/feed',
+        path:'/',
         element:<Feed/>
+    },
+    {
+        path:'/create-post',
+        element:<CreatePost/>
     }
 
 ])

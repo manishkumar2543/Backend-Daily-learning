@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import { useAuth } from '../hooks/useAuth'
 
 
@@ -10,9 +10,11 @@ const Register = () => {
     const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const navigate=useNavigate()
     const submitHandler=async(e)=>{
         e.preventDefault()
         await handleRegister(username,email,password)
+        navigate('/')
     }
     if(loading){
         return <main>
@@ -20,7 +22,7 @@ const Register = () => {
         </main>
     }
   return (
-    <main>
+    <main >
         <div className="form-container">
             <h1>Register</h1>
             <form onSubmit={submitHandler}>

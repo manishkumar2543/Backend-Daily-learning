@@ -13,6 +13,7 @@ postRouter.get('/details/:postId ',idenfyUser,postController.getPostDetailsContr
 postRouter.post('/like/:postId',idenfyUser,postController.likePostController)
 
 postRouter.get('/feed',idenfyUser,postController.feedPostController)
+postRouter.post('/unlike/:postId',idenfyUser,postController.unlikePostController)
 
 
 
