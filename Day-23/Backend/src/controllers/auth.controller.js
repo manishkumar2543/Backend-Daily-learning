@@ -1,6 +1,7 @@
 const userModel=require('../models/user.model')
 const bcrypt=require('bcryptjs')
-const jwt=require('jsonwebtoken')
+const jwt=require('jsonwebtoken');
+const blacklistModel = require('../models/blacklist.model');
 
 
 async function registerController(req,res){
@@ -31,7 +32,7 @@ async function registerController(req,res){
         id:user._id,
         username:user.username,
        
-    },process.env.JWT_SECRET_KEY,{expiresIn:"3d"})
+    },process.env.JWT_SECRET,{expiresIn:"3d"})
 
     res.cookie('token',token)
 
@@ -56,10 +57,10 @@ async function loginController(req,res){
             {email},
             {username}
         ]
-    })
+    }).select('+password')
     if(!user){
         return res.status(400).json({
-            message:"User not found"
+            message:"Invalid credentials"
         })
     }
 
@@ -75,7 +76,7 @@ async function loginController(req,res){
         id:user._id,
         username:user.username,
        
-    },process.env.JWT_SECRET_KEY,{expiresIn:"3d"})
+    },process.env.JWT_SECRET,{expiresIn:"3d"})
 
     res.cookie('token',token)
 
@@ -91,8 +92,32 @@ async function loginController(req,res){
 
 }
 
+async function getMe(req,res){
+    
+
+
+    const user=await userModel.findById(req.user.id)
+    res.status(200).json({
+        message:'User fetched successfully',
+        user
+    })
+}
+
+async function logoutUser(req,res){
+    const token=req.cookies.token;
+    res.clearCookie('token')
+    await blacklistModel.create({
+        token
+    })
+    res.status(201).json({
+        message:'User logged out successfully'
+    })
+}
+
 
 module.exports={
     registerController,
-    loginController
+    loginController,
+    getMe,
+    logoutUser
 }
