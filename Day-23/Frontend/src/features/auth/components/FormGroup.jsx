@@ -7,7 +7,7 @@ const FormGroup = ({label,placeholder,value,onChange}) => {
         <input value={value} onChange={onChange}
          type="text" name={label} id={label} required placeholder={placeholder}  />
     </div>
-  )
+  ) 
 }
 
 export default FormGroup
