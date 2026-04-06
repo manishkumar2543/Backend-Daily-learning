@@ -13,6 +13,7 @@ async function uploadFile({buffer,filename,folder=''}){
         folder
     })
     return file
+    
 }
 module.exports={
     uploadFile

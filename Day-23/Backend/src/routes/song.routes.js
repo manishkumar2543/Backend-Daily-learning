@@ -7,6 +7,7 @@ const upload=require('../middlewares/song.middleware')
 
 
 router.post('/',upload.single('song'),songController.uploadSong)
+router.get('/',songController.getSong)
 
 
 

@@ -8,23 +8,35 @@ async function uploadSong(req,res){
     const songBuffer=req.file.buffer;
    const tags= id3.read(songBuffer)
    console.log(tags)
-   
-  const songFile= await storageServices.uploadFile({
-     buffer:songBuffer,
-     filename:tags.title + '.mp3',
-     folder:'cohort-2/moodify-songs'
-   })
+   const {mood}=req.body
+   const posterBuffer = tags?.image?.imageBuffer || null;
+    
+  
+   const uploads = [
+    storageServices.uploadFile({
+        buffer:songBuffer,
+        filename:tags.title || `song-${Date.now()}`,
+        folder:'songs'
+    })
+   ];
 
-   const posterFile=await storageServices.uploadFile({
-    buffer:tags.image.imageBuffer,
-    filename:tags.title + '.jpeg',
-    folder:'cohort-2/moodify-posters'
-   })   
+   if (posterBuffer) {
+    uploads.push(
+      storageServices.uploadFile({
+        buffer:posterBuffer,
+        filename:`${tags.title || "song"}-poster`,
+        folder:'posters'
+      })
+    );
+   }
+
+   const [songFile,posterFile]=await Promise.all(uploads)
+
 
    const song=await songModel.create({
     url:songFile.url,
-    posterUrl:posterFile.url,
-    title:tags.title,
+    posterUrl:posterFile?.url || "",
+    title:tags.title || "Unknown title",
     mood
    })
 
@@ -36,10 +48,28 @@ async function uploadSong(req,res){
 
 }
 
+async function getSong(req,res){
+    const {mood}=req.query
+    const song=await songModel.findOne({
+        mood
+    })
+    if(!song){
+        return res.status(404).json({
+            message:'No song found for this mood',
+            song:null
+        })
+    }
+    res.status(200).json({
+        message:'Song fetched successfully',
+        song
+    })
+}
+
 module.exports={
-    uploadSong
+    uploadSong,
+    getSong
 }
 
 
 
-// ImageBuffer not read properly
+

@@ -4,15 +4,16 @@ const mongoose=require('mongoose')
 const songSchema=new mongoose.Schema({
      url:{
         type:String,
-        require:true
+        required:true
      },
      posterUrl:{
         type:String,
-        require:true
+        required:false,
+        default:""
      },
      title:{
         type:String,
-        require:true
+        required:true
      },
      mood:{
         type:String,

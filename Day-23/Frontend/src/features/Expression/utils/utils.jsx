@@ -8,7 +8,7 @@ import {
 
 
   // ✅ 1. INIT (setup + camera)
-  export const init = async ({ videoRef, faceLandmarkerRef }) => {
+  export const init = async ({ videoRef, faceLandmarkerRef}) => {
     const vision = await FilesetResolver.forVisionTasks(
       "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision/wasm"
     );
@@ -31,7 +31,8 @@ import {
   };
 
   // ✅ 2. DETECT (same logic)
- export const detect = ({ videoRef, faceLandmarkerRef, setExpression }) => {
+ 
+export const detect = ({ videoRef, faceLandmarkerRef, setExpression }) => {
   if (!videoRef.current || !faceLandmarkerRef.current) return;
 
   const now = Date.now();
@@ -41,6 +42,8 @@ import {
       videoRef.current,
       now
     );
+
+  let currentExpression = ""; // ✅ variable banaya
 
   if (results.faceLandmarks.length > 0) {
     const landmarks = results.faceLandmarks[0];
@@ -58,17 +61,18 @@ import {
     const eyeOpen = Math.abs(eyeTop.y - eyeBottom.y);
 
     if (mouthWidth > 0.12 && mouthHeight > 0.003) {
-      setExpression("😊 Smiling");
+      currentExpression = "happy";
     } else if (mouthHeight > 0.06) {
-      setExpression("😮 Surprised");
+      currentExpression = "wow";
     } else if (eyeOpen < 0.01) {
-      setExpression("😴 Eyes Closed");
+      currentExpression = "sleep";
     } else if (mouthWidth < 0.09 && mouthHeight < 0.025) {
-      setExpression("😢 Sad");
-    } else {
-      setExpression("😐 Neutral");
-    }
+      currentExpression = "sad";
+    } 
   } else {
-    setExpression("No Face Detected");
+    currentExpression = "No Face Detected";
   }
+
+  setExpression(currentExpression); // ✅ correct
+  return currentExpression;
 };

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { detect,init } from "../utils/utils";
 
 
-export default function FaceExpression() {
+export default function FaceExpression({onClick=()=>{ }}) {
   const videoRef = useRef(null);
   const faceLandmarkerRef = useRef(null);
   const animationRef = useRef(null);
@@ -12,12 +12,21 @@ export default function FaceExpression() {
 
 
   useEffect(() => {
-    init({ videoRef, faceLandmarkerRef }); // sirf setup
+    init({ videoRef, faceLandmarkerRef}); // sirf setup
     return () => {
       if (animationRef.current)
         cancelAnimationFrame(animationRef.current);
     };
   }, []);
+
+  async function handleClick() {
+
+   const expression =  detect({ videoRef, faceLandmarkerRef, setExpression });
+    console.log(expression);
+   onClick(expression);
+
+    
+  }
 
   return (
     <div style={{ textAlign: "center" }}>
@@ -32,7 +41,8 @@ export default function FaceExpression() {
       <h3>{expression}</h3>
 
       {/* 🔥 Button se control */}
-      <button style={{padding:'5px 10px',backgroundColor:'black',color:'white'}} onClick={()=>detect({ videoRef, faceLandmarkerRef, setExpression })}>Start Detect</button>
+      <button className="button"
+       onClick={handleClick}>Start Detect</button>
 
     </div>
   );
