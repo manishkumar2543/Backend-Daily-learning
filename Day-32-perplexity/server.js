@@ -1,6 +1,7 @@
 import "dotenv/config";
 import app from "./src/app.js";
 import connectDB from "./src/config/db.js";
+import { Testai } from "./src/services/ai.service.js";
 
 const PORT = process.env.PORT || 5000;
 
@@ -18,3 +19,6 @@ const startServer = async () => {
 };
 
 startServer();
+Testai()
+
+
