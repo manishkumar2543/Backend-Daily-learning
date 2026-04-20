@@ -25,6 +25,6 @@ export async function login({username,email,password}){
 }
 
  export async function logout() {
-    const response=await api.post('/api/auth/logout')
+    const response=await api.get('/api/auth/logout')
     return response.data
 }

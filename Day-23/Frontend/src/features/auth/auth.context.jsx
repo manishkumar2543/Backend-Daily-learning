@@ -1,4 +1,5 @@
-import { createContext, useState } from "react"
+import { createContext, useEffect, useState } from "react"
+import { getMe } from "./services/auth.api";
 
 
 export const AuthContext=createContext()
@@ -6,6 +7,33 @@ export const AuthContext=createContext()
 export const AuthProvider=({children})=>{
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        let isMounted = true;
+
+        const bootstrapUser = async () => {
+            try {
+                const data = await getMe();
+                if (isMounted) {
+                    setUser(data.user);
+                }
+            } catch (error) {
+                if (isMounted) {
+                    setUser(null);
+                }
+            } finally {
+                if (isMounted) {
+                    setLoading(false);
+                }
+            }
+        };
+
+        bootstrapUser();
+
+        return () => {
+            isMounted = false;
+        };
+    }, []);
 
     return(
         <AuthContext.Provider value={{user, setUser, loading, setLoading}}>

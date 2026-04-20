@@ -8,10 +8,12 @@ import {
 
 
   // ✅ 1. INIT (setup + camera)
-  export const init = async ({ videoRef, faceLandmarkerRef}) => {
+  export const init = async ({ videoRef, faceLandmarkerRef, isMountedRef, streamRef}) => {
     const vision = await FilesetResolver.forVisionTasks(
       "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision/wasm"
     );
+
+    if (isMountedRef && !isMountedRef.current) return;
 
     faceLandmarkerRef.current =
       await FaceLandmarker.createFromOptions(vision, {
@@ -23,9 +25,28 @@ import {
         numFaces: 1,
       });
 
+    if (isMountedRef && !isMountedRef.current) {
+      faceLandmarkerRef.current = null;
+      return;
+    }
+
     const stream = await navigator.mediaDevices.getUserMedia({
       video: true,
     });
+
+    if (isMountedRef && !isMountedRef.current) {
+      stream.getTracks().forEach((track) => track.stop());
+      return;
+    }
+
+    if (streamRef) {
+      streamRef.current = stream;
+    }
+
+    if (!videoRef.current) {
+      stream.getTracks().forEach((track) => track.stop());
+      return;
+    }
 
     videoRef.current.srcObject = stream;
   };

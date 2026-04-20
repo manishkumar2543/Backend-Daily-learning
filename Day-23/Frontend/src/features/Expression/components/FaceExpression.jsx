@@ -6,16 +6,27 @@ export default function FaceExpression({onClick=()=>{ }}) {
   const videoRef = useRef(null);
   const faceLandmarkerRef = useRef(null);
   const animationRef = useRef(null);
+  const isMountedRef = useRef(false);
+  const streamRef = useRef(null);
 
   const [expression, setExpression] = useState("Detecting...");
 
 
 
   useEffect(() => {
-    init({ videoRef, faceLandmarkerRef}); // sirf setup
+    isMountedRef.current = true;
+    init({ videoRef, faceLandmarkerRef, isMountedRef, streamRef}); // sirf setup
+
     return () => {
+      isMountedRef.current = false;
+
       if (animationRef.current)
         cancelAnimationFrame(animationRef.current);
+
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach((track) => track.stop());
+        streamRef.current = null;
+      }
     };
   }, []);
 
